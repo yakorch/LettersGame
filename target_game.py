@@ -81,36 +81,30 @@ def get_pure_user_words(user_words: list, letters: list, words_from_dict: list):
                 continue
     return lst
 
-def results(userwords, list_words, dictwords):
-    print("All your words:", userwords)
-    error_words = get_pure_user_words(userwords, list_words, dictwords)
+def results():
+    letters = generate_grid()
+    print(letters)
+    dict_list = get_words("en.txt", letters)
+    words_by_user = get_user_words()
+    print("All your words:", words_by_user)
+    error_words = get_pure_user_words(words_by_user, letters, letters)
     right_words = []
     missed_words = []
-    for word in userwords:
-            if word in dictwords:
+    for word in words_by_user:
+            if word in letters:
                right_words.append(word)
-    for item in dictwords:
-        if item not in userwords:
+    for item in letters:
+        if item not in words_by_user:
             missed_words.append(item)
-    print("Dictionary words:", dictwords)
+    print("Dictionary words:", letters)
     print(len(right_words), "correct guesses:", right_words)
     print(len(missed_words), "missed words:", missed_words)
     print("Your words that match rules but are not in dictionary: ", error_words) 
     with open("result.txt", mode="w", encoding="utf-8") as result:
-        result.write("Dictionary words: " + ", ".join(dictwords) + "\n")
+        result.write("Dictionary words: " + ", ".join(letters) + "\n")
         result.write(f"{len(right_words)} correct guesses:")
         result.write(", ".join(right_words) + "\n")
         result.write(f"{len(missed_words)} missed words:")
         result.write(", ".join(missed_words) + "\n")
         result.write("Your words that match rules but are not in dictionary: ")
         result.write(", ".join(error_words))
-
-def main():
-    letters = generate_grid()
-    print(letters)
-    dict_list = get_words("en.txt", letters)
-    words_by_user = get_user_words()
-    results(userwords= words_by_user, list_words=letters, dictwords=dict_list)
-
-if __name__ == '__main__':
-    main()
