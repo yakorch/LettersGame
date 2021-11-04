@@ -116,7 +116,3 @@ def results():
         result.write(", ".join(missed_words) + "\n")
         result.write("Your words that match rules but are not in dictionary: ")
         result.write(", ".join(error_words))
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
