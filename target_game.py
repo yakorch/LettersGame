@@ -1,3 +1,7 @@
+"""A module where a list of 9 words is given to the user and 
+user has to write words with length of at least 4 and each word
+has to contain a list-middle letter. Words are checked with
+dictionary. Returns results at the end."""
 import random
 import copy
 
@@ -82,6 +86,10 @@ def get_pure_user_words(user_words: list, letters: list, words_from_dict: list):
     return lst
 
 def results():
+    """
+    Plays a 'main' role in this module. Returns results 
+    and createa a file with them.
+    """
     letters = generate_grid()
     print(letters)
     dict_list = get_words("en.txt", letters)
@@ -108,3 +116,7 @@ def results():
         result.write(", ".join(missed_words) + "\n")
         result.write("Your words that match rules but are not in dictionary: ")
         result.write(", ".join(error_words))
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
