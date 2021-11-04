@@ -1,7 +1,3 @@
-"""A module where a list of 9 words is given to the user and 
-user has to write words with length of at least 4 and each word
-has to contain a list-middle letter. Words are checked with
-dictionary. Returns results at the end."""
 import random
 import copy
 
@@ -39,9 +35,7 @@ def get_words(filename: str, letters: list):
                     words_dic.append(line.lower())
                 except:
                     continue
-                
         return words_dic
-
 def get_user_words():
     """
     Gets words from user input and returns a list with these words.
@@ -85,34 +79,32 @@ def get_pure_user_words(user_words: list, letters: list, words_from_dict: list):
                 continue
     return lst
 
-def results():
-    """
-    Plays a 'main' role in this module. Returns results 
-    and createa a file with them.
-    """
-    letters = generate_grid()
-    print(letters)
-    dict_list = get_words("en.txt", letters)
-    words_by_user = get_user_words()
-    print("All your words:", words_by_user)
-    error_words = get_pure_user_words(words_by_user, letters, letters)
+def new(userwords, list_words, dictwords):
+    print("All your words:", userwords)
+    error_words = get_pure_user_words(userwords, list_words, dictwords)
     right_words = []
     missed_words = []
-    for word in words_by_user:
-            if word in letters:
+    for word in userwords:
+            if word in dictwords:
                right_words.append(word)
-    for item in letters:
-        if item not in words_by_user:
+    for item in dictwords:
+        if item not in userwords:
             missed_words.append(item)
-    print("Dictionary words:", letters)
+    print("Dictionary words:", dictwords)
     print(len(right_words), "correct guesses:", right_words)
     print(len(missed_words), "missed words:", missed_words)
     print("Your words that match rules but are not in dictionary: ", error_words) 
     with open("result.txt", mode="w", encoding="utf-8") as result:
-        result.write("Dictionary words: " + ", ".join(letters) + "\n")
+        result.write("Dictionary words: " + ", ".join(dictwords) + "\n")
         result.write(f"{len(right_words)} correct guesses:")
         result.write(", ".join(right_words) + "\n")
         result.write(f"{len(missed_words)} missed words:")
         result.write(", ".join(missed_words) + "\n")
         result.write("Your words that match rules but are not in dictionary: ")
         result.write(", ".join(error_words))
+def results():
+    letters =  generate_grid()
+    print(letters)
+    dict_list = get_words("en.txt", letters)
+    words_by_user = get_user_words()
+    new(userwords= words_by_user, list_words=letters, dictwords=dict_list)
