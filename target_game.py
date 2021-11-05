@@ -1,3 +1,7 @@
+"""A module where a list of 9 words is given to the user and
+user has to write words with length of at least 4 and each word
+has to contain a list-middle letter. Words are checked with
+dictionary. Returns results at the end."""
 import random
 import copy
 
@@ -17,8 +21,9 @@ def get_words(filename: str, letters: list):
         words_dic = []
         costil = 0
         for line in dictionary: # check every line in dictionary
+            line = line.lower()
             line = line.strip()
-            if len(line) in range(4,10) and letters[4] in line: # check whether line contains a center char and is appropriate length
+            if len(line) in range(4,10) and letters[4] in line:
                 for letah in line: # check if all letters are from (list) 'letters'
                     if letah not in letters:
                         costil = 1
@@ -68,32 +73,36 @@ def get_pure_user_words(user_words: list, letters: list, words_from_dict: list):
                 costil = 0
                 continue
             try: # makes sure every letter in word is in list of letters
-                    copylist = copy.copy(letters)
-                    item_index = 0
-                    while item_index < len(word):
-                        copylist.remove(word[item_index])
-                        item_index += 1
-                    if word not in words_from_dict:
-                        lst.append(word)
+                copylist = copy.copy(letters)
+                item_index = 0
+                while item_index < len(word):
+                    copylist.remove(word[item_index])
+                    item_index += 1
+                if word not in words_from_dict:
+                    lst.append(word)
             except:
                 continue
     return lst
 
 def new(userwords, list_words, dictwords):
+    """
+    Helping function. Plays 'main' role. Returns results
+    and createa a file with them.
+    """
     print("All your words:", userwords)
     error_words = get_pure_user_words(userwords, list_words, dictwords)
     right_words = []
     missed_words = []
     for word in userwords:
-            if word in dictwords:
-               right_words.append(word)
+        if word in dictwords:
+            right_words.append(word)
     for item in dictwords:
         if item not in userwords:
             missed_words.append(item)
     print("Dictionary words:", dictwords)
     print(len(right_words), "correct guesses:", right_words)
     print(len(missed_words), "missed words:", missed_words)
-    print("Your words that match rules but are not in dictionary: ", error_words) 
+    print("Your words that match rules but are not in dictionary: ", error_words)
     with open("result.txt", mode="w", encoding="utf-8") as result:
         result.write("Dictionary words: " + ", ".join(dictwords) + "\n")
         result.write(f"{len(right_words)} correct guesses:")
@@ -102,7 +111,12 @@ def new(userwords, list_words, dictwords):
         result.write(", ".join(missed_words) + "\n")
         result.write("Your words that match rules but are not in dictionary: ")
         result.write(", ".join(error_words))
+
 def results():
+    """
+    Core of the module. Creates a list of letters, finds
+    dictionary words and asks user to write words.
+    """
     letters = generate_grid()
     print(letters)
     dict_list = get_words("en.txt", letters)
