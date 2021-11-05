@@ -103,7 +103,7 @@ def new(userwords, list_words, dictwords):
         result.write("Your words that match rules but are not in dictionary: ")
         result.write(", ".join(error_words))
 def results():
-    letters =  generate_grid()
+    letters = generate_grid()
     print(letters)
     dict_list = get_words("en.txt", letters)
     words_by_user = get_user_words()
